@@ -1,0 +1,145 @@
+
+body {
+  background-color: #f4f7fb; 
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.welcome-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.welcome-screen h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.welcome-description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.welcome-screen ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.welcome-screen li {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.start-button {
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  background-color: #576698;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #7365da;
+}
+
+.App {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.task-input {
+  margin-bottom: 20px;
+}
+
+.task-input input,
+.task-input select {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.task-input button {
+  padding: 10px 15px;
+  background-color: #576698;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+
+.task-input button:hover {
+  background-color: #7365da;
+}
+
+.task-columns {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.task-column {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  background-color: #ffffff;
+}
+
+.task-column h2 {
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.task-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.task-column li {
+  text-align: left;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  color: #444;
+}
+
+.task-done {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+.clear-button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #e591ba;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.clear-button:hover {
+  background-color: #e577ac;
+}
