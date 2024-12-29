@@ -45,12 +45,12 @@ The application will open in your browser at http://localhost:3000.
 ## Screenshots
 **Welcome Screen:**
 
-![alt text](image.png)
+![alt text](src/img/image.png)
 
 **Main Screen:**
 
-![alt text](image-1.png)
-![alt text](image-2.png)
+![alt text](src/img/image-1.png)
+![alt text](src/img/image-2.png)
 
 ## Enjoy Using Task-Tracker!
 We hope Task-Tracker becomes your go-to tool for managing tasks and boosting productivity. Whether it's organizing your day or keeping track of important to-dos, this app is here to help.
