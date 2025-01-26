@@ -1,36 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import WelcomeScreen from './components/WelcomeScreen';
+import TaskInput from './components/TaskInput';
+import TaskColumn from './components/TaskColumn';
 import "./App.css";
-
-// Компонент WelcomeScreen
-function WelcomeScreen({ onStart }) {
-  return (
-    <div className="welcome-screen">
-      <h1>Welcome to the Priority To-Do List!</h1>
-      <p className="welcome-description">
-        Organize your day, boost productivity, and track your progress easily!
-      </p>
-      <ul>
-        <li>Create tasks with different priorities.</li>
-        <li>Complete tasks by marking them as done.</li>
-        <li>Clear completed tasks to stay on track.</li>
-      </ul>
-      <button onClick={onStart} className="start-button">
-      Get Started
-      </button>
-    </div>
-  );
-}
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [taskText, setTaskText] = useState("");
   const [priority, setPriority] = useState("low");
-  const [showWelcome, setShowWelcome] = useState(true); // Статус для отображения экрана приветствия
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [showWelcome, setShowWelcome] = useState(true);
+
+  useEffect(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    if (savedTasks) {
+      setTasks(JSON.parse(savedTasks));
+    }
+  }, []);
+
+  const clearCompleted = () => {
+    const updatedTasks = tasks.filter((task) => !task.done);
+    setTasks(updatedTasks);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  };
 
   const addTask = () => {
     if (taskText.trim() === "") return;
-    setTasks([...tasks, { id: Date.now(), text: taskText, priority, done: false }]);
+    if (editingTaskId) {
+      setTasks(tasks.map(task => task.id === editingTaskId ? { ...task, text: taskText, priority } : task));
+      setEditingTaskId(null);
+    } else {
+      setTasks([...tasks, { id: Date.now(), text: taskText, priority, done: false }]);
+    }
     setTaskText("");
+  };
+
+  const editTask = (task) => {
+    setTaskText(task.text);
+    setPriority(task.priority);
+    setEditingTaskId(task.id);
   };
 
   const toggleDone = (taskId) => {
@@ -40,10 +48,6 @@ function App() {
     setTasks(updatedTasks);
   };
 
-  const clearCompleted = () => {
-    setTasks(tasks.filter((task) => !task.done));
-  };
-
   const priorities = [
     { key: "low", label: "Low" },
     { key: "medium", label: "Medium" },
@@ -51,10 +55,9 @@ function App() {
   ];
 
   const handleStart = () => {
-    setShowWelcome(false); // Скрываем экран приветствия, когда пользователь готов начать
+    setShowWelcome(false);
   };
 
-  // Если нужно показать экран приветствия
   if (showWelcome) {
     return <WelcomeScreen onStart={handleStart} />;
   }
@@ -62,47 +65,25 @@ function App() {
   return (
     <div className="App">
       <h1>Priority To-Do List</h1>
-      <div className="task-input">
-        <input
-          type="text"
-          placeholder="Enter a task"
-          value={taskText}
-          onChange={(e) => setTaskText(e.target.value)}
-        />
-        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-          {priorities.map((p) => (
-            <option key={p.key} value={p.key}>
-              {p.label}
-            </option>
-          ))}
-        </select>
-        <button onClick={addTask}>Add Task</button>
-      </div>
-
+      <TaskInput
+        taskText={taskText}
+        setTaskText={setTaskText}
+        priority={priority}
+        setPriority={setPriority}
+        addTask={addTask}
+        editingTaskId={editingTaskId}
+      />
       <div className="task-columns">
         {priorities.map((p) => (
-          <div key={p.key} className="task-column">
-            <h2>{p.label}</h2>
-            <ul>
-              {tasks
-                .filter((task) => task.priority === p.key)
-                .map((task) => (
-                  <li key={task.id} className={task.done ? "task-done" : ""}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={task.done}
-                        onChange={() => toggleDone(task.id)}
-                      />
-                      {task.text}
-                    </label>
-                  </li>
-                ))}
-            </ul>
-          </div>
+          <TaskColumn
+            key={p.key}
+            priority={p}
+            tasks={tasks}
+            toggleDone={toggleDone}
+            editTask={editTask}
+          />
         ))}
       </div>
-
       <button onClick={clearCompleted} className="clear-button">
         Clear Completed Tasks
       </button>
